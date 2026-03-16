@@ -1,15 +1,21 @@
 package co.edu.poli.contexto2.servicios;
 
-public class Enlatado {
+import co.edu.poli.contexto2.modelo.Alimento;
+
+public class Enlatado extends Alimento {
 
     public static double nivelSodio;
     private String materialEnvase;
 
-    public Enlatado() {
+    public Enlatado(String nombre, String id, String fecha, int tamanio,
+                    String descripcion, double peso, String materialEnvase) {
+
+        super(nombre, id, fecha, tamanio, descripcion, peso);
+        this.materialEnvase = materialEnvase;
     }
 
     public static boolean esAltoenSodio() {
-        return nivelSodio > 500.0; 
+        return nivelSodio > 500.0;
     }
 
     public String getMaterialEnvase() {
@@ -20,3 +26,4 @@ public class Enlatado {
         this.materialEnvase = materialEnvase;
     }
 }
+

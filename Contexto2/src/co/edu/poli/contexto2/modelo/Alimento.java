@@ -9,6 +9,9 @@ public class Alimento {
     private String descripcion;
     private double peso;
 
+    // PUNTO 3: atributo final, no se puede cambiar
+    private final String paisOrigen = "Colombia";
+
     public Alimento(String nombre, String id, String fecha, int tamanio, String descripcion, double peso) {
         this.nombre = nombre;
         this.id = id;
@@ -45,6 +48,11 @@ public class Alimento {
         }
     }
 
+    // PUNTO 3: método final, no se puede sobrescribir
+    public final void mostrarInformacionBase() {
+        System.out.println("Este alimento pertenece al sistema de control.");
+    }
+
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -63,6 +71,8 @@ public class Alimento {
     public double getPeso() { return peso; }
     public void setPeso(double peso) { this.peso = peso; }
 
+    public String getPaisOrigen() { return paisOrigen; }
+
     @Override
     public String toString() {
         return "Alimento{" +
@@ -72,6 +82,7 @@ public class Alimento {
                 ", tamanio=" + tamanio +
                 ", descripcion='" + descripcion + '\'' +
                 ", peso=" + peso +
+                ", paisOrigen='" + paisOrigen + '\'' +
                 '}';
     }
 }

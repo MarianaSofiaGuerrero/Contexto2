@@ -1,6 +1,6 @@
 package co.edu.poli.contexto2.modelo;
 
-public class Registro {
+public final class Registro {
 
     private String fechaRegistro;
     private String nombreRegistro;

@@ -8,8 +8,15 @@ public class Principal {
     public static void main(String[] args) {
 
         Enlatado.nivelSodio = 500.0;
-        Enlatado atun = new Enlatado();
-        atun.setMaterialEnvase("lata");
+        Enlatado atun = new Enlatado(
+                "Atun en lata",
+                "E-001",
+                "2027-06-10",
+                250,
+                "Atun enlatado",
+                300,
+                "Lata"
+        );
 
         Procesado sopa = new Procesado(
                 "Sopa de Tomate",
@@ -126,6 +133,84 @@ public class Principal {
         System.out.println("Valor del contador desde r5: " + r5.getContadorRegistros());
 
         System.out.println("Valor del contador desde la clase Registro: " + Registro.getContadorRegistros());
+        
+        
+        // ACTIVIDAD 6
+        // PUNTO1: ARREGLO DE TIPO SUPERSUPERCLASE
+        Alimento[] alimentos = new Alimento[5];
+
+        alimentos[0] = sopa;
+        alimentos[1] = fruta;
+
+        Procesado jugo = new Procesado(
+                "Jugo",
+                "003",
+                "12/03/2026",
+                2,
+                "Jugo procesado",
+                400,
+                10,
+                "BAJO"
+        );
+
+        alimentos[2] = jugo;
+
+        System.out.println("\n ARREGLO DE LA SUPERSUPERCLASE ");
+
+        for (Alimento a : alimentos) {
+            if (a != null) {
+                System.out.println(a.toString());
+            }
+        }
+        
+        // PUNTO2: POLIMORFISMO
+        mostrarAlimento(sopa);
+
+        Alimento nuevoAlimento = crearAlimento();
+        System.out.println("\n MÉTODO QUE RETORNA SUPERSUPERCLASE");
+        System.out.println(nuevoAlimento.toString());
+
+    }
+
+    // MÉTODO QUE RECIBE PARÁMETRO (POLIMORFISMO)
+    public static void mostrarAlimento(Alimento alimento) {
+
+        System.out.println("\n MÉTODO CON PARÁMETRO (POLIMORFISMO)");
+        System.out.println("Nombre: " + alimento.getNombre());
+        System.out.println("Clasificación: " + alimento.clasificarTamano());
+    }
+
+    // MÉTODO QUE RETORNA SUPERSUPERCLASE
+    public static Alimento crearAlimento() {
+
+        Procesado galletas = new Procesado(
+                "Galletas",
+                "P-010",
+                "2027-08-01",
+                300,
+                "Galletas procesadas",
+                350,
+                12,
+                "MEDIO"
+        );
+        
+    //  PUNTO 3: COMENTARIOS DE LOS CAMBIOS
+
+        System.out.println("\n EXPLICACIÓN DEL PUNTO 3");
+
+        // 1. Atributo que no se puede cambiar
+        System.out.println("1. Atributo final: paisOrigen en la clase Alimento (no se puede modificar)");
+
+        // 2. Método que no se puede sobrescribir
+        System.out.println("2. Método final: mostrarInformacionBase() en la clase Alimento (no se puede sobrescribir)");
+
+        // 3. Clase que no se puede heredar
+        System.out.println("3. Clase final: Registro (no permite herencia)");
+
+        return galletas;
+      
+        
+
 
     }
 }

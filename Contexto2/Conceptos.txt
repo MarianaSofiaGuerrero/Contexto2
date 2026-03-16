@@ -1,0 +1,216 @@
+CONCEPTOS DE PROGRAMACIÓN ORIENTADA A OBJETOS
+PROYECTO: Sistema de Controol de Alimentos 
+
+1. MÉTODO CONSTRUCTOR
+Un método constructor en Java es un bloque de código especial dentro de una clase que se 
+invoca automáticamente al crear una nueva instancia (objeto) utilizando la palabra clave new. 
+Su función principal es inicializar los atributos del objeto, preparar su estado inicial 
+y no tiene tipo de retorno, ni siquiera void. 
+
+UBICACIÓN
+Clase: Alimento 
+CONSTRUCTOR: 
+public Alimento(String nombre, String id, String fecha, int tamanio, String descripcion, double peso)
+
+También se encuentran constructores en las clases: 
+Almacenamiento, Consumo, Inventario, NaveEspacial, 
+Producto, Registro, Sistema y Tripulación.
+
+
+
+2. MÉTODOS DE ACCESO (GETTERS Y SETTERS)
+Los métodos getter y setter son funciones utilizadas en la programación orientada a objetos (POO) 
+para acceder (get) y modificar (set) los atributos privados o protegidos de una clase de forma controlada. 
+Su objetivo principal es aplicar la encapsulación, permitiendo validar datos antes de asignarlos, 
+ocultar la implementación interna y garantizar la seguridad de la información. 
+
+UBICACIÓN 
+Clase: ALimento 
+public String getNombre()
+public void setNombre(String nombre)
+
+También aparecen en casi todas las clases del proyecto.
+
+
+
+3. MÉTODO toString ()
+Es una función especial, presente en lenguajes como Java, que convierte un objeto en una representación de texto (cadena/string). 
+Se utiliza para obtener una descripción legible del estado o los atributos de un objeto, facilitando la depuración y 
+visualización de datos en consola o registros. 
+
+UBICACIÓN: 
+Clase: Alimento 
+MÉTODO 
+@Override
+public String toString()
+
+También esta implementado en las clases: 
+Almacenamiento, Consumo, Inventario, NaveEspacial, Producto, Registro, Sistema y Tripulación. 
+
+
+
+4. MODIFICADOR STATIC 
+Los métodos static (estáticos) son funciones asociadas a la clase en sí y no a una instancia (objeto) específica de ella. 
+Se invocan directamente usando el nombre de la clase sin necesidad de crear un objeto previo. Son útiles para utilidades generales, 
+como funciones matemáticas o métodos de fábrica. 
+
+UBICACIÓN: 
+Clase: Enlatado 
+public static double nivelSodio
+
+Clase: Registro 
+private static int contadorRegistros
+
+MÉTODO:
+public static int getContadorRegistros()
+
+
+
+5. MODIFICADOR FINAL 
+El modificador final en Java se aplica para hacer que las variables sean constantes 
+(valor inmutable), impedir que los métodos sean sobreescritos (estabilidad), 
+o evitar que las clases sean heredadas.
+
+UBICACIÓN: 
+ATRIBUTO FINAL: 
+Clase: Alimento
+private final String paisOrigen = "Colombia"
+
+MÉTODO FINAL 
+Clase: Alimento
+public final void mostrarInformacionBase()
+
+Clase Final ( no se puede heredar): 
+Clase: Registro
+public final class Registro 
+
+
+
+6.  VISIBILIDADES 
+Las visibilidades en Java (o modificadores de acceso) definen el alcance y nivel de restricción de clases, 
+métodos y atributos. Permiten el encapsulamiento, controlando qué partes del código pueden acceder o modificar los miembros de una 
+clase para garantizar la integridad y seguridad del sistema. 
+
+TIPOS USADOS EN EL PROYECTO: 
+private → solo accesible dentro de la clase
+public → accesible desde cualquier clase
+
+Ejemplo:
+Clase: Alimento
+private String nombre
+public String getNombre()
+
+
+
+7. MULTIPLICIDADES 
+Las multiplicidades en Java definen el número de instancias de una clase que pueden relacionarse 
+con una sola instancia de otra clase. Indican los límites mínimos y máximos de una asociación (ej. 1 a 1, 1 a muchos), 
+crucial para definir cómo se estructuran los objetos en el código.
+
+UBICACIÓN:
+Clase: Inventario
+private Alimento[] alimentos
+private Producto[] productos
+
+Esto indica que un inventario puede contener varios alimentos y productos. 
+
+
+
+8. SOBREESCRITURA DE MÉTODOS (OVERRIDE) 
+Es una técnica donde una subclase redefine un método heredado de su clase padre. 
+Permite que la subclase ofrezca una implementación específica del método, manteniendo el mismo nombre, parámetros y 
+tipo de retorno para modificar o ampliar su comportamiento.
+
+UBICACIÓN: 
+Clase: Procesado 
+@Override
+public String clasificarTamano()
+
+Este método sobreescribe el método clasificarTamano de la clase Alimento. 
+
+
+
+9. SOBRECARGA DE MÉTODOS (OVERLOAD) 
+Es una característica que permite definir múltiples métodos con el mismo nombre dentro de una misma clase, 
+siempre que tengan diferentes parámetros (en cantidad, tipo u orden). 
+Esto mejora la legibilidad y flexibilidad del código, permitiendo realizar 
+acciones similares con diferentes tipos de datos.
+
+UBICACIÓN: 
+Clase: Alimento
+public String clasificarTamano()
+public String clasificarTamano(double peso)
+
+
+
+10. CREACIÓN DE OBJETOS
+La creación de objetos es el proceso de instanciar una clase, 
+creando un nuevo bloque de memoria con estructura y comportamiento definidos por un plano técnico (clase o prototipo). 
+Se utiliza para generar instancias únicas, a menudo mediante palabras clave como new (en Java o C#) o literales {} (en JavaScript)
+
+UBICACIÓN
+Clase: Principal
+Ejemplos:
+Enlatado atun = new Enlatado(...)
+Procesado sopa = new Procesado(...)
+Deshidratado fruta = new Deshidratado(...)
+
+También se crean objetos de la clase Registro.
+
+
+
+11. AGREGACIÓN
+La agregación es una relación entre clases donde una clase contiene o usa objetos de otra, 
+peroambas pueden existir de manera independiente.Es un tipo de relación, tiene un (has-a)
+en la programación orientada a objetos. A diferencia de la composición, 
+si el objeto principal se destruye, el componente puede seguir existiendo
+
+UBICACIÓN
+Clase: Consumo
+private Producto producto
+
+Esto significa que la clase Consumo utiliza un objeto Producto.
+
+También ocurre en:
+Clase: NaveEspacial
+private Sistema sistema
+private Tripulacion[] Tripulacion
+
+
+
+12. HERENCIA
+La herencia permite a una clase (subclase/hija) adquirir campos y métodos de otra 
+(superclase/padre), usando la palabra clave extends. Promueve la reutilización de código
+y establece relaciones jerárquicas. Java soporta herencia simple (una clase extiende de una sola)
+
+UBICACIÓN:
+Clase: Procesado
+public class Procesado extends Alimento
+
+Clase: Deshidratado
+public class Deshidratado extends Alimento
+
+Clase: Enlatado
+public class Enlatado extends Alimento
+
+
+
+13. POLIMORFISMO
+El polimorfismo permite a objetos de distintas clases responder de forma única a un mismo mensaje o método. 
+Se basa en la herencia y la sobreescritura (override), 
+facilitando la flexibilidad y el uso de referencias de una clase padre para manejar objetos hijos.
+
+UBICACIÓN:
+Clase: Principal
+Alimento[] misAlimentos = {sopa, fruta}
+
+En este arreglo se guardan objetos de diferentes tipos (Procesado y Deshidratado) pero se manejan como tipo Alimento.
+
+También se aplica en el método:
+public static void mostrarAlimento(Alimento alimento)
+
+
+
+14. REPOSITORIO GITHUB
+Repositorio del proyecto:
+
