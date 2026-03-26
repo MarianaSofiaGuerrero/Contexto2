@@ -1,6 +1,6 @@
 package co.edu.poli.contexto2.modelo;
 
-public class Alimento {
+public abstract class Alimento {
 
     private String nombre;
     private String id;
@@ -20,6 +20,9 @@ public class Alimento {
         this.descripcion = descripcion;
         this.peso = peso;
     }
+    
+    // METODO ABSTRACTO
+    public abstract void mostrarInfo();
 
     public String clasificarTamano() {
 

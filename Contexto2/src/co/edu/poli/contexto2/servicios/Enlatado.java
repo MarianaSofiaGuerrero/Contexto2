@@ -25,5 +25,13 @@ public class Enlatado extends Alimento {
     public void setMaterialEnvase(String materialEnvase) {
         this.materialEnvase = materialEnvase;
     }
+    
+    @Override
+    public void mostrarInfo() {
+        System.out.println("Enlatado: " + getNombre() +
+                " | Envase: " + materialEnvase +
+                " | Alto sodio: " + esAltoenSodio());
+    }
+    
 }
 

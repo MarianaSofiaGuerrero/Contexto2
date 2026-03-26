@@ -18,7 +18,6 @@ public class Procesado extends Alimento {
     public double calcularCalorias() {
         return contenidoAditivos * 10;
     }
-
     @Override
     public String clasificarTamano() {
 
@@ -32,4 +31,11 @@ public class Procesado extends Alimento {
             return "Pequeño";
         }
     }
+    @Override
+    public void mostrarInfo() {
+        System.out.println("Procesado: " + getNombre() +
+                " | Nivel: " + nivelProcesamiento +
+                " | Calorías: " + calcularCalorias());
+    }
 }
+

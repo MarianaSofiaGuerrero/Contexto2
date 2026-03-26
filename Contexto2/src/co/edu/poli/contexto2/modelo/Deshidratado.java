@@ -33,4 +33,12 @@ public class Deshidratado extends Alimento {
             return 90;
         }
     }
+
+    @Override
+    public void mostrarInfo() {
+        System.out.println("Deshidratado: " + getNombre() +
+                " | Método: " + metodoDeshidratacion +
+                " | Vida útil: " + calcularVidaUtil() + " días");
+    }
 }
+    
