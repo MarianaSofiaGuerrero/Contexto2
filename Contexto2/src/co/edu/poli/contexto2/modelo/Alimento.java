@@ -9,7 +9,7 @@ public abstract class Alimento {
     private String descripcion;
     private double peso;
 
-    // PUNTO 3: atributo final, no se puede cambiar
+
     private final String paisOrigen = "Colombia";
 
     public Alimento(String nombre, String id, String fecha, int tamanio, String descripcion, double peso) {
