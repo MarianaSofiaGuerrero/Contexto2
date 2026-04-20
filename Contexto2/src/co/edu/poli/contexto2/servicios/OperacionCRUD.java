@@ -13,7 +13,7 @@ public interface OperacionCRUD {
      * 
      * @param a Alimento a crear
      */
-    void crear(Alimento a);
+    void crear(Alimento a) throws Exception;
 
     /**
      * Consulta un alimento por su identificador.
@@ -21,7 +21,7 @@ public interface OperacionCRUD {
      * @param id Identificador del alimento
      * @return El alimento encontrado o null si no existe
      */
-    Alimento consultar(String id);
+    Alimento consultar(String id) throws Exception;
 
     /**
      * Actualiza un alimento existente.
@@ -30,7 +30,7 @@ public interface OperacionCRUD {
      * @param nuevo Nuevo objeto alimento
      * @return true si se actualiza correctamente, false en caso contrario
      */
-    boolean actualizar(String id, Alimento nuevo);
+    boolean actualizar(String id, Alimento nuevo) throws Exception;
 
     /**
      * Elimina un alimento según su identificador.
@@ -38,5 +38,5 @@ public interface OperacionCRUD {
      * @param id Identificador del alimento a eliminar
      * @return true si se elimina correctamente, false en caso contrario
      */
-    boolean eliminar(String id);
+    boolean eliminar(String id) throws Exception;
 }
