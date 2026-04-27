@@ -1,19 +1,26 @@
 package co.edu.poli.contexto2.servicios;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import co.edu.poli.contexto2.modelo.Alimento;
 
 /**
- * Clase que implementa las operaciones CRUD (Crear, Consultar,
- * Actualizar y Eliminar) para objetos de tipo {@link Alimento}.
+ * Implementación de las operaciones CRUD para la gestión de objetos
+ * de tipo {@link Alimento}.
  * 
  * <p>
- * Esta implementación utiliza un arreglo dinámico para almacenar
- * los alimentos. Si el arreglo se llena, se redimensiona automáticamente.
+ * Esta clase permite crear, consultar, actualizar y eliminar alimentos
+ * almacenados en un arreglo dinámico. Además, incluye métodos para
+ * serializar y deserializar los datos en archivos.
  * </p>
  * 
  * <p>
- * Además, incorpora manejo de excepciones para validar datos de entrada
- * y evitar fallos en la ejecución del sistema.
+ * No maneja excepciones directamente (no usa try-catch), sino que las
+ * propaga mediante la cláusula {@code throws}, delegando su manejo a
+ * capas superiores.
  * </p>
  * 
  * @author 
@@ -21,15 +28,15 @@ import co.edu.poli.contexto2.modelo.Alimento;
 public class ImplementacionOperacionCRUD implements OperacionCRUD {
 
     /**
-     * Arreglo que almacena los objetos de tipo Alimento.
+     * Arreglo interno donde se almacenan los objetos Alimento.
      */
     private Alimento[] alimentos = new Alimento[2];
 
     /**
      * Crea un nuevo alimento y lo agrega al arreglo.
-     * Si el arreglo está lleno, se amplía su tamaño.
-     * 
-     * @param a Objeto de tipo Alimento a crear
+     * Si el arreglo está lleno, se redimensiona automáticamente.
+     *
+     * @param a Objeto de tipo Alimento a agregar
      * @throws Exception Si ocurre un error durante la creación
      * @throws IllegalArgumentException Si el alimento es nulo
      */
@@ -52,14 +59,6 @@ public class ImplementacionOperacionCRUD implements OperacionCRUD {
         alimentos = temp;
     }
 
-    /**
-     * Consulta un alimento por su identificador.
-     * 
-     * @param id Identificador del alimento
-     * @return El alimento encontrado
-     * @throws Exception Si el alimento no es encontrado
-     * @throws IllegalArgumentException Si el ID es nulo o vacío
-     */
     @Override
     public Alimento consultar(String id) throws Exception {
         if (id == null || id.isEmpty()) {
@@ -75,15 +74,6 @@ public class ImplementacionOperacionCRUD implements OperacionCRUD {
         throw new Exception("Alimento no encontrado con ID: " + id);
     }
 
-    /**
-     * Actualiza un alimento existente a partir de su identificador.
-     * 
-     * @param id Identificador del alimento a actualizar
-     * @param nuevo Nuevo objeto Alimento con los datos actualizados
-     * @return true si se actualiza correctamente
-     * @throws Exception Si el alimento no se encuentra
-     * @throws IllegalArgumentException Si el ID es inválido
-     */
     @Override
     public boolean actualizar(String id, Alimento nuevo) throws Exception {
         if (id == null || id.isEmpty()) {
@@ -100,14 +90,6 @@ public class ImplementacionOperacionCRUD implements OperacionCRUD {
         throw new Exception("No se encontró el alimento para actualizar");
     }
 
-    /**
-     * Elimina un alimento del arreglo según su identificador.
-     * 
-     * @param id Identificador del alimento a eliminar
-     * @return true si se elimina correctamente
-     * @throws Exception Si el alimento no se encuentra
-     * @throws IllegalArgumentException Si el ID es inválido
-     */
     @Override
     public boolean eliminar(String id) throws Exception {
         if (id == null || id.isEmpty()) {
@@ -125,11 +107,59 @@ public class ImplementacionOperacionCRUD implements OperacionCRUD {
     }
 
     /**
-     * Obtiene el arreglo actual de alimentos.
-     * 
+     * Retorna el arreglo actual de alimentos almacenados.
+     *
      * @return Arreglo de objetos Alimento
      */
     public Alimento[] getAlimentos() {
         return alimentos;
+    }
+
+    /**
+     * Permite establecer (reemplazar) el arreglo de alimentos.
+     * 
+     * <p>
+     * Este método es utilizado principalmente cuando se cargan datos
+     * desde un archivo mediante deserialización.
+     * </p>
+     * 
+     * @param alimentos nuevo arreglo de alimentos a asignar
+     */
+    public void setAlimentos(Alimento[] alimentos) {
+        this.alimentos = alimentos;
+    }
+
+    /**
+     * Serializa un arreglo de alimentos y lo guarda en un archivo.
+     *
+     * @param alimentos Arreglo de alimentos a guardar
+     * @param path Ruta donde se guardará el archivo
+     * @param name Nombre del archivo
+     * @return Mensaje de confirmación
+     * @throws Exception Si ocurre un error durante la escritura
+     */
+    public String serializar(Alimento[] alimentos, String path, String name) throws Exception {
+        try (FileOutputStream fos = new FileOutputStream(path + name);
+             ObjectOutputStream oss = new ObjectOutputStream(fos)) {
+
+            oss.writeObject(alimentos);
+        }
+        return "Archivo create!!";
+    }
+
+    /**
+     * Deserializa un archivo y recupera el arreglo de alimentos.
+     *
+     * @param path Ruta del archivo
+     * @param name Nombre del archivo
+     * @return Arreglo de objetos Alimento recuperado
+     * @throws Exception Si ocurre un error durante la lectura
+     */
+    public Alimento[] deserializar(String path, String name) throws Exception {
+        try (FileInputStream fis = new FileInputStream(path + name);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            return (Alimento[]) ois.readObject();
+        }
     }
 }

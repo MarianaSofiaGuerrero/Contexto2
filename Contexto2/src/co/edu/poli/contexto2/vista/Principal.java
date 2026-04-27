@@ -3,41 +3,31 @@ package co.edu.poli.contexto2.vista;
 import co.edu.poli.contexto2.modelo.*;
 import co.edu.poli.contexto2.servicios.Enlatado;
 import co.edu.poli.contexto2.servicios.ImplementacionOperacionCRUD;
-import co.edu.poli.contexto2.servicios.OperacionArchivo;
 import java.util.Scanner;
 
 /**
  * Clase principal del sistema.
  * 
  * <p>
- * Se encarga de ejecutar todas las funcionalidades del programa,
- * incluyendo pruebas de CRUD, polimorfismo, manejo de registros,
- * y un menú interactivo con persistencia en archivo binario (.bin).
+ * Ejecuta pruebas del CRUD, crea objetos de diferentes tipos de alimentos
+ * y permite la interacción con el usuario mediante un menú en consola.
  * </p>
  * 
  * <p>
- * Además, implementa manejo de excepciones para evitar que la aplicación
- * termine de forma abrupta, capturando los errores provenientes de la
- * capa de servicios y mostrando mensajes claros al usuario.
+ * También permite la persistencia de datos mediante serialización y
+ * deserialización de archivos binarios (.bin).
+ * </p>
+ * 
+ * <p>
+ * Incluye manejo de excepciones para evitar fallos inesperados.
  * </p>
  */
 public class Principal {
 
     /**
-     * Método principal que inicia la ejecución del sistema.
+     * Método principal que inicia el sistema.
      * 
-     * <p>
-     * Controla el flujo general del programa, ejecuta pruebas iniciales
-     * y gestiona un menú interactivo para realizar operaciones CRUD y
-     * manejo de archivos.
-     * </p>
-     * 
-     * <p>
-     * Se implementa un bloque try-catch global para capturar excepciones
-     * y evitar la terminación inesperada del sistema.
-     * </p>
-     * 
-     * @param args Argumentos de la línea de comandos
+     * @param args argumentos de la línea de comandos
      */
     public static void main(String[] args) {
 
@@ -81,21 +71,16 @@ public class Principal {
 
             ImplementacionOperacionCRUD crud = new ImplementacionOperacionCRUD();
 
-            // CREAR
             crud.crear(sopa);
             crud.crear(fruta);
             crud.crear(atun);
 
-            // CONSULTAR
             System.out.println("\n CONSULTAR P-001 ");
             Alimento resultado = crud.consultar("P-001");
             if (resultado != null) {
                 resultado.mostrarInfo();
-            } else {
-                System.out.println("No encontrado");
             }
 
-            // ACTUALIZAR
             System.out.println("\n ACTUALIZAR P-001 ");
             boolean actualizado = crud.actualizar("P-001", new Procesado(
                     "Sopa Mejorada",
@@ -109,12 +94,10 @@ public class Principal {
             ));
             System.out.println(actualizado ? "Actualizado correctamente" : "No encontrado");
 
-            // ELIMINAR
             System.out.println("\n ELIMINAR D-001 ");
             boolean eliminado = crud.eliminar("D-001");
             System.out.println(eliminado ? "Eliminado correctamente" : "No encontrado");
 
-            // MOSTRAR
             System.out.println("\n ALIMENTOS ACTUALIZADOS");
             for (Alimento a : crud.getAlimentos()) {
                 if (a != null) {
@@ -131,12 +114,12 @@ public class Principal {
             mostrarAlimento(sopa);
 
             Alimento nuevoAlimento = crearAlimento();
-            System.out.println(nuevoAlimento.toString());
+            System.out.println(nuevoAlimento);
 
             crud = new ImplementacionOperacionCRUD();
 
             Scanner sc = new Scanner(System.in);
-            OperacionArchivo archivo = new OperacionArchivo();
+            ImplementacionOperacionCRUD servicio = new ImplementacionOperacionCRUD();
             int opcion;
 
             do {
@@ -208,16 +191,33 @@ public class Principal {
                         break;
 
                     case 7:
-                        System.out.println(archivo.serializar(crud.getAlimentos()));
+                        System.out.println("SERIALIZAR");
+                        try {
+                            String resultado1 = servicio.serializar(servicio.getAlimentos(), "", "sensores.bin");
+                            System.out.println(resultado1);
+                        } catch (Exception e) {
+                            System.out.println("Error al guardar: " + e.getMessage());
+                        }
                         break;
 
                     case 8:
-                        Alimento[] datos = archivo.deserializar();
-                        crud = new ImplementacionOperacionCRUD();
-                        for (Alimento a : datos) {
-                            if (a != null) crud.crear(a);
+                        System.out.println("Deserializar");
+                        try {
+                            Alimento[] cargados = servicio.deserializar("", "sensores.bin");
+
+                            servicio.setAlimentos(cargados);
+
+                            System.out.println("Alimentos cargados correctamente");
+
+                            for (Alimento s : servicio.getAlimentos()) {
+                                if (s != null) {
+                                    System.out.println(s);
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            System.out.println("Error al cargar: " + e.getMessage());
                         }
-                        System.out.println("Datos cargados desde archivo .bin");
                         break;
 
                     case 9:
@@ -228,17 +228,26 @@ public class Principal {
             } while (opcion != 9);
 
         } catch (Exception e) {
-            System.out.println(" Error general del sistema: " + e.getMessage());
-            System.out.println (" Opción Inválida. Reinicie el Sistema");
+            System.out.println("Error general del sistema: " + e.getMessage());
         }
     }
 
+    /**
+     * Muestra información básica de un alimento.
+     * 
+     * @param alimento objeto a mostrar
+     */
     public static void mostrarAlimento(Alimento alimento) {
         System.out.println("Nombre: " + alimento.getNombre());
         System.out.println("Clasificación: " + alimento.clasificarTamano());
     }
 
+    /**
+     * Crea un alimento de ejemplo.
+     * 
+     * @return objeto Alimento
+     */
     public static Alimento crearAlimento() {
-        return new Procesado("Galletas","P-010","2027-08-01",300,"Galletas procesadas",350,12.0,"MEDIO");
+        return new Procesado("Galletas", "P-010", "2027-08-01", 300, "Galletas procesadas", 350, 12.0, "MEDIO");
     }
 }
